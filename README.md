@@ -24,4 +24,6 @@ Diferente de abordagens tradicionais baseadas apenas em notebooks, este projeto 
 O modelo focou na métrica de **Recall**, priorizando a identificação da maior quantidade possível de cancelamentos reais para maximizar a retenção de receita.
 
 ## 📷 Screenshots
-![alt text](image.png)
+<img width="744" height="882" alt="image" src="https://github.com/user-attachments/assets/6f52445d-37e3-41b5-9c41-ee3608e30f2a" />
+
+
