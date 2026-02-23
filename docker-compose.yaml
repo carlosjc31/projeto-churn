@@ -1,0 +1,38 @@
+services:
+  # O Banco de Dados (Simulando o servidor da empresa)
+  db_empresa:
+    image: mysql:8.0
+    container_name: mysql_churn_project
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha_secreta_root
+      MYSQL_DATABASE: telecom_churn_db
+      MYSQL_USER: user_analista
+      MYSQL_PASSWORD: senha_analista
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  app:
+    build: .   # Caminho para o Dockerfile
+    container_name: app_churn_project
+    working_dir: /app
+    volumes:
+      - .:/app
+    depends_on:
+      - db_empresa
+    ports:
+      - "8501:8501"  # Porta para acessar a aplicação Streamlit
+
+  # Interface Visual (Para você ver as tabelas pelo navegador)
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db_empresa
+
+volumes:
+  db_data:

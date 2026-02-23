@@ -1,0 +1,7 @@
+-r requirements-base.txt
+
+# Pacotes exclusivos do Windows
+pywin32==306
+pyodbc==5.1.0
+micropip==0.6.0
+protobuf==5.28.0
