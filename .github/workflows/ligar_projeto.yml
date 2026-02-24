@@ -1,0 +1,21 @@
+name: Ligar Projeto (08h00 BRT)
+on:
+  schedule:
+    - cron: '0 11 * * *' # Roda todos os dias às 11:00 UTC (08:00 BRT)
+  workflow_dispatch: # Permite que você clique num botão para rodar na hora que quiser
+
+jobs:
+  ligar-nuvem:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Entrar na Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Ligar Banco de Dados e Site
+      uses: azure/cli@v1
+      with:
+        inlineScript: |
+          az mysql flexible-server start --resource-group rg-churn-prediction --name mysql-churn-carlos-can
+          az webapp start --resource-group rg-churn-prediction --name app-churn-carlos2026

@@ -1,0 +1,21 @@
+name: Desligar Projeto (20h00 BRT)
+on:
+  schedule:
+    - cron: '0 23 * * *' # Roda todos os dias às 23:00 UTC (20:00 BRT)
+  workflow_dispatch:
+
+jobs:
+  desligar-nuvem:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Entrar na Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Pausar Banco de Dados e Site
+      uses: azure/cli@v1
+      with:
+        inlineScript: |
+          az mysql flexible-server stop --resource-group rg-churn-prediction --name mysql-churn-carlos-can
+          az webapp stop --resource-group rg-churn-prediction --name app-churn-carlos2026
