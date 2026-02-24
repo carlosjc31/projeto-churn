@@ -1,3 +1,4 @@
+
 # Makefile para Projeto Churn - Automação MLOps
 
 # Variáveis
@@ -32,3 +33,4 @@ clean: ## Limpa containers parados e imagens não utilizadas (Manutenção)
 test-db: ## Testa a conexão do Python com o MySQL (db_empresa)
 	@echo "$(GREEN)Testando conexão com o banco de dados...$(NC)"
 	$(DOCKER_COMPOSE) exec app python test_db.py
+

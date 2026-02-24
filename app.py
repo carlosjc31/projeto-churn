@@ -1,3 +1,4 @@
+
 import streamlit as st
 import joblib
 import pandas as pd
@@ -88,3 +89,5 @@ if st.button('🚀 Calcular Risco de Churn', use_container_width=True):
             st.write("💡 **Sugestão:** O cliente está engajado. Ótimo momento para oferecer produtos adicionais (Cross-sell).")
     else:
         st.warning("O modelo não foi carregado corretamente.")
+
+
