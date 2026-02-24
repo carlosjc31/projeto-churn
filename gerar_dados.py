@@ -1,4 +1,5 @@
 import mysql.connector
+import os
 from faker import Faker
 import random
 from datetime import datetime, timedelta
@@ -9,18 +10,18 @@ NUM_CLIENTES = 1000
 
 print("⏳ Conectando ao Banco Docker...")
 
-# Conexão com o Banco Docker
+# Conexão com o Banco de Dados (usando variáveis de ambiente para flexibilidade)
 try:
     conn = mysql.connector.connect(
-        host="localhost",
-        user="user_analista",
-        password="senha_analista",
-        database="telecom_churn_db"
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "user_analista"),
+        password=os.getenv("DB_PASS", "senha_analista"),
+        database=os.getenv("DB_NAME", "telecom_churn_db")
     )
     cursor = conn.cursor()
     print("✅ Conectado com sucesso!")
 except Exception as e:
-    print(f"❌ Erro ao conectar. Verifique se o Docker está rodando. Erro: {e}")
+    print(f"❌ Erro ao conectar ao banco. Erro: {e}")
     exit()
 
 # 1. Criar Tabelas (DDL) - Simulando o ERP
@@ -102,10 +103,10 @@ for _ in range(NUM_CLIENTES):
         else:
             consumo = random.uniform(10, 50) # Consumo normal
             suporte = random.randint(0, 1) # Pouca reclamação
-
-        cursor.execute("INSERT INTO uso_servico (id_cliente, mes_referencia, dados_consumidos_gb, chamadas_suporte) VALUES (%s, %s, %s, %s)",
+        # Inserir no banco de dados usando cursor.executemany para eficiência
+        cursor.executemany("INSERT INTO uso_servico (id_cliente, mes_referencia, dados_consumidos_gb, chamadas_suporte) VALUES (%s, %s, %s, %s)",
                        (id_cliente, mes_str, consumo, suporte))
-
+        #
 conn.commit()
 cursor.close()
 conn.close()
